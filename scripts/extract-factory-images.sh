@@ -99,7 +99,7 @@ mount_darwin() {
     fi
   fi
 
-  ext4fuse -o logfile=/dev/stdout,uid=$EUID,ro "$imgFile" "$mountPoint" &>"$mount_log" || {
+  cd ~/Downloads/ext4fuse-0.1.3 && ./ext4fuse -o logfile=/dev/stdout,uid=$EUID,ro "$imgFile" "$mountPoint" &>"$mount_log" || {
     echo "[-] '$imgFile' mount failed"
     cat "$mount_log"
     abort 1
@@ -117,7 +117,7 @@ mount_linux() {
   elif [ "$USE_FUSEEXT2" = true ]; then
     mount_cmd="fuse-ext2 -o uid=$EUID,ro"
   else
-    mount_cmd="ext4fuse -o logfile=/dev/stdout,uid=$EUID,ro"
+    mount_cmd="cd ~/Downloads/ext4fuse-0.1.3 && ./ext4fuse -o logfile=/dev/stdout,uid=$EUID,ro"
   fi
 
   $mount_cmd "$imgFile" "$mountPoint" &>"$mount_log" || {
